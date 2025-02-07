@@ -21,10 +21,11 @@ public class RewardPointsController {
         return ResponseEntity.ok(response);
     }
 
-    // Calculate and save reward points, return total reward points
+    // Calculate and save reward points for a customer
     @PostMapping("/calculate/{customerId}")
-    public ResponseEntity<Map<String, Object>> calculateRewardPoints(@PathVariable Long customerId) {
-        Map<String, Object> response = rewardPointsService.calculateAndSaveRewardPoints(customerId);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<String> calculateRewardPoints(@PathVariable Long customerId) {
+     Object points=   rewardPointsService.calculateAndSaveRewardPoints(customerId);
+        return ResponseEntity.ok("Reward points calculated and saved successfully!"+points);
     }
+    
 }

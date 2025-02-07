@@ -1,6 +1,7 @@
 package com.rewardtracker.controller;
 
 
+import com.rewardtracker.globalExceptionhandling.ResourceNotFoundException;
 import com.rewardtracker.model.Customer;
 import com.rewardtracker.model.JsonResponseClass;
 import com.rewardtracker.service.CustomerService;
@@ -36,7 +37,7 @@ public class CustomerController {
         return new JsonResponseClass("200", "Customers retrieved successfully"+customers, "success");
     }
 
-    //getcx by id
+    //getcx by id //use glo expetionshere 
     @GetMapping("/{id}")
     public ResponseEntity<JsonResponseClass> getCustomerById(@PathVariable("id") Long id) {
         JsonResponseClass resp = new JsonResponseClass();
@@ -52,7 +53,8 @@ public class CustomerController {
             resp.setStatus("404");
             resp.setMessage("Data with ID " + id + " not found");
             resp.setResult("unsuccessful");
-            return ResponseEntity.status(404).body(resp);  // Return HTTP 404
+            throw new ResourceNotFoundException("Customer with ID " + id + " not found");
+             // Return HTTP 404
         }
     }
     
@@ -82,12 +84,12 @@ public class CustomerController {
         }
     }
     
-    
+    //login
     @PostMapping("/login")
     public JsonResponseClass loginUser(@RequestBody Customer customer, HttpSession session) {
         return customerService.loginUser(customer, session);
     }
-
+//logout
     @PostMapping("/logout")
     public JsonResponseClass logoutUser(HttpSession session) {
         return customerService.logoutUser(session);
