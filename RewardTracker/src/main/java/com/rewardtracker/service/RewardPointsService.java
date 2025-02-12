@@ -156,3 +156,6 @@ public class RewardPointsService {
         return points;
     }
 }
+
+// if the xc have 50 point then he got 0rewar 51 1-100=1 rewad =50
+

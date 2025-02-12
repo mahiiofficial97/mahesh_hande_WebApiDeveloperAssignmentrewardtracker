@@ -23,11 +23,13 @@ public class CustomerController {
     private CustomerService customerService;
 
     
-    //save Customer
     @PostMapping("/create")
-    public JsonResponseClass createCustomer(@RequestBody Customer customer) {
-        customerService.createCustomer(customer);
-        return new JsonResponseClass("200", "Customer saved successfully with id ="+customer.getId(),"success");
+    public ResponseEntity<JsonResponseClass> createCustomer(@RequestBody Customer customer) {
+        String resultMessage = customerService.createCustomer(customer);
+        // Check if the result message indicates failure (i.e. customer already exists)
+        String status = resultMessage.contains("already exists") ? "409" : "200";
+        return ResponseEntity.status(Integer.parseInt(status))
+                             .body(new JsonResponseClass(status, resultMessage, resultMessage.contains("already exists") ? "failure" : "success"));
     }
 
     //get all customer
