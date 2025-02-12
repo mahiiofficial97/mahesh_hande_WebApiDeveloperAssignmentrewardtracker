@@ -26,9 +26,10 @@ public class CustomerService {
             logger.warn("Customer with email {} already exists", customer.getEmail());
             return "Customer with email " + customer.getEmail() + " already exists.";
         }
-        customerRepo.save(customer);
-        logger.info("Customer created successfully with email {}", customer.getEmail());
-        return "Customer created successfully!";
+        // Save the customer and retrieve the saved entity (with generated id)
+        Customer savedCustomer = customerRepo.save(customer);
+        logger.info("Customer created successfully with email {}", savedCustomer.getEmail());
+        return "Customer created successfully with id = " + savedCustomer.getId();
     }
 
     public List<Customer> getAllCustomers() {

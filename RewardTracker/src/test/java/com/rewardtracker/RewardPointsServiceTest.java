@@ -3,7 +3,6 @@ package com.rewardtracker;
 import com.rewardtracker.model.RewardPoints;
 import com.rewardtracker.repository.RewardPointsRepo;
 import com.rewardtracker.service.RewardPointsService;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -36,7 +35,7 @@ public class RewardPointsServiceTest {
         rewardJune = new RewardPoints();
         rewardJune.setRewardMonth(6);  // 6 represents June
         rewardJune.setRewardYear(2025);
-        rewardJune.setPoints(40);
+        rewardJune.setPoints(30); // Set to 30 to match expected total (30 + 20 = 50)
 
         // Create a reward record for July 2025 with 20 points.
         rewardJuly = new RewardPoints();
@@ -55,19 +54,24 @@ public class RewardPointsServiceTest {
         // When: the service method is invoked
         Map<String, Object> result = rewardPointsService.getRewardPointsByCustomerId(customerId);
 
-        // Print the result to console for debugging
+        // Print the result to the console for debugging
         System.out.println("Test Output: " + result);
 
         // Then: verify the returned values
+        // 1. The response map is not null and contains the correct customerId.
         assertThat(result).isNotNull();
         assertThat(result.get("customerId")).isEqualTo(customerId);
+
+        // 2. Total reward points should equal the sum of points from both records (30 + 20 = 50)
         assertThat(result.get("totalRewardPoints")).isEqualTo(50);
 
+        // 3. Verify the monthly breakdown list is returned and properly sorted
         @SuppressWarnings("unchecked")
         List<Map<String, Object>> monthlyPoints = (List<Map<String, Object>>) result.get("monthlyPoints");
         assertThat(monthlyPoints).hasSize(2);
 
-        // Verify sorting order: July should come before June
+        // Since rewards are sorted in descending order (by year and month),
+        // July (month 7) should appear before June (month 6).
         Map<String, Object> firstEntry = monthlyPoints.get(0);
         assertThat(firstEntry.get("month")).isEqualTo("JULY");
         assertThat(firstEntry.get("year")).isEqualTo(2025);
