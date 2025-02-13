@@ -19,6 +19,7 @@ import java.util.List;
 @ToString(exclude = {"spentDetails", "rewardPoints"}) // Prevent recursion in toString()
 public class Customer {
 
+	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
