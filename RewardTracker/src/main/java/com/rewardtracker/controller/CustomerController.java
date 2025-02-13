@@ -7,6 +7,7 @@ import com.rewardtracker.model.JsonResponseClass;
 import com.rewardtracker.service.CustomerService;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ public class CustomerController {
 
     
     @PostMapping("/create")
-    public ResponseEntity<JsonResponseClass> createCustomer(@RequestBody Customer customer) {
+    public ResponseEntity<JsonResponseClass> createCustomer(@Valid @RequestBody Customer customer) {
         String resultMessage = customerService.createCustomer(customer);
         // Check if the result message indicates failure (i.e. customer already exists)
         String status = resultMessage.contains("already exists") ? "409" : "200";

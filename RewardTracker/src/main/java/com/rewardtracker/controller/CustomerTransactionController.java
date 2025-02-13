@@ -4,6 +4,9 @@ import com.rewardtracker.globalExceptionhandling.ResourceNotFoundException;
 import com.rewardtracker.model.CustomerTransaction;
 import com.rewardtracker.service.CustomerTransactionService;
 import com.rewardtracker.service.RewardPointsService;
+
+import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +31,7 @@ public class CustomerTransactionController {
      * Create a new transaction and return a composite response with reward points.
      */
     @PostMapping
-    public ResponseEntity<Map<String, Object>> createTransaction(@RequestBody CustomerTransaction transaction) {
+    public ResponseEntity<Map<String, Object>> createTransaction(@Valid @RequestBody CustomerTransaction transaction) {
         // Save the transaction
         CustomerTransaction savedTransaction = transactionService.saveTransaction(transaction);
         // Retrieve reward points for the customer associated with the transaction
