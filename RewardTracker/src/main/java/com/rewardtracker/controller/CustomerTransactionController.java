@@ -27,9 +27,9 @@ public class CustomerTransactionController {
         this.transactionService = transactionService;
     }
     
-    /**
-     * Create a new transaction and return a composite response with reward points.
-     */
+    
+     //Create a new transaction and return a composite response with reward points.
+     
     @PostMapping
     public ResponseEntity<Map<String, Object>> createTransaction(@Valid @RequestBody CustomerTransaction transaction) {
         // Save the transaction
